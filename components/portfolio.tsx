@@ -89,10 +89,7 @@ export function Portfolio() {
 
         <div className="container-shell relative grid items-center gap-10 py-14 lg:grid-cols-[1.04fr_.96fr] lg:py-20">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className="relative z-10">
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/[0.07] px-3 py-1.5 text-xs font-medium text-emerald-300">
-              <span className="relative flex size-2"><span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-60" /><span className="relative inline-flex size-2 rounded-full bg-emerald-400" /></span>
-              {t.hero.available}
-            </div>
+
 
             <p className="mb-3 text-sm font-medium uppercase tracking-[0.24em] text-slate-400">{t.hero.eyebrow}</p>
             <h1 className="font-display text-5xl font-semibold leading-[.95] tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl xl:text-[5.35rem]">

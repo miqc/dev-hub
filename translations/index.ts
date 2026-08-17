@@ -17,7 +17,6 @@ const pt = {
       "Transformo problemas complexos em experiências digitais rápidas, acessíveis e fáceis de usar — da arquitetura à última interação.",
     projectsCta: "Ver projetos",
     contactCta: "Vamos conversar",
-    available: "Disponível para novos desafios",
     imageAlt: "Avatar 3D de Micael Leal",
     scroll: "Role para explorar",
   },
