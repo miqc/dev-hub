@@ -8,7 +8,7 @@ type SectionHeadingProps = {
 export function SectionHeading({ eyebrow, title, description, align = "left" }: SectionHeadingProps) {
   return (
     <div className={`max-w-3xl ${align === "center" ? "mx-auto text-center" : ""}`}>
-      <p className="mb-4 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.24em] text-blue-400">
+      <p className={`mb-4 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.24em] text-blue-400 ${align === "center" ? "justify-center" : ""}`}>
         <span className="inline-block h-px w-7 bg-blue-400" aria-hidden="true" />
         {eyebrow}
       </p>

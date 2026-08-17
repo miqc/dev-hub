@@ -35,14 +35,9 @@ const pt = {
     ],
   },
   skills: {
-    eyebrow: "Habilidades",
-    title: "Ferramentas que transformam ideias em produto.",
-    description: "Uma stack moderna, escolhida de acordo com o desafio — nunca por moda.",
-    categories: [
-      { title: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS"] },
-      { title: "Backend", items: ["Python", "Django", "Node.js", "APIs RESTful"] },
-      { title: "Dados & Ferramentas", items: ["PostgreSQL", "Git", "Docker", "CI/CD"] },
-    ],
+    eyebrow: "Tecnologias",
+    title: "Ferramentas que utilizo.",
+    description: "Uma stack moderna para criar produtos completos, do front-end à infraestrutura.",
   },
   projects: {
     eyebrow: "Projetos em destaque",
@@ -139,14 +134,9 @@ const en: typeof pt = {
     ],
   },
   skills: {
-    eyebrow: "Skills",
-    title: "Tools that turn ideas into products.",
-    description: "A modern stack, chosen for the challenge — never for the hype.",
-    categories: [
-      { title: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS"] },
-      { title: "Backend", items: ["Python", "Django", "Node.js", "RESTful APIs"] },
-      { title: "Data & Tools", items: ["PostgreSQL", "Git", "Docker", "CI/CD"] },
-    ],
+    eyebrow: "Technologies",
+    title: "Tools I work with.",
+    description: "A modern stack for building complete products, from frontend to infrastructure.",
   },
   projects: {
     eyebrow: "Featured projects",

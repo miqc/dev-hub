@@ -11,15 +11,27 @@ import {
   Check,
   Code2,
   Copy,
-  Database,
   Github,
   Linkedin,
   Mail,
   Send,
-  Server,
   Sparkles,
   TerminalSquare,
 } from "lucide-react";
+import {
+  SiDjango,
+  SiDocker,
+  SiGit,
+  SiJavascript,
+  SiN8N,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiPostgresql,
+  SiPython,
+  SiReact,
+  SiTailwindcss,
+  SiTypescript,
+} from "react-icons/si";
 import { useLanguage } from "@/context/language-context";
 import { Navbar } from "@/components/navbar";
 import { Reveal } from "@/components/ui/reveal";
@@ -31,8 +43,21 @@ const GITHUB_URL = "https://github.com/miqc";
 const LINKEDIN_URL = "https://www.linkedin.com/in/micaelleal";
 const EMAIL = "micael.leal.dev@gmail.com";
 
-const categoryIcons = [Code2, Server, Database];
 const projectIcons = [TerminalSquare, Braces, Sparkles];
+const technologies = [
+  { name: "TypeScript", icon: SiTypescript, color: "#3178c6" },
+  { name: "JavaScript", icon: SiJavascript, color: "#f7df1e" },
+  { name: "Python", icon: SiPython, color: "#3776ab" },
+  { name: "React", icon: SiReact, color: "#61dafb" },
+  { name: "Django", icon: SiDjango, color: "#44b78b" },
+  { name: "Next.js", icon: SiNextdotjs, color: "#ffffff" },
+  { name: "n8n", icon: SiN8N, color: "#ea4b71" },
+  { name: "PostgreSQL", icon: SiPostgresql, color: "#4169e1" },
+  { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06b6d4" },
+  { name: "Node.js", icon: SiNodedotjs, color: "#5fa04e" },
+  { name: "Docker", icon: SiDocker, color: "#2496ed" },
+  { name: "Git", icon: SiGit, color: "#f05032" },
+];
 
 export function Portfolio() {
   const { t, language } = useLanguage();
@@ -128,23 +153,17 @@ export function Portfolio() {
 
       <section id="skills" className="section-space bg-[#0a0f19]">
         <div className="container-shell">
-          <Reveal><SectionHeading eyebrow={t.skills.eyebrow} title={t.skills.title} description={t.skills.description} /></Reveal>
-          <div className="mt-12 grid gap-4 md:grid-cols-3">
-            {t.skills.categories.map((category, index) => {
-              const Icon = categoryIcons[index];
-              return (
-                <Reveal key={category.title} delay={index * 0.08}>
-                  <article className="group h-full rounded-3xl border border-white/[0.07] bg-[#0d1420] p-6 transition duration-300 hover:-translate-y-1 hover:border-blue-400/25 hover:shadow-2xl hover:shadow-blue-950/20 sm:p-7">
-                    <span className="grid size-11 place-items-center rounded-2xl border border-blue-400/20 bg-blue-500/10 text-blue-400"><Icon size={21} /></span>
-                    <h3 className="mt-6 font-display text-lg font-semibold text-white">{category.title}</h3>
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {category.items.map((item) => <span key={item} className="rounded-lg border border-white/[0.06] bg-white/[0.035] px-3 py-2 text-xs font-medium text-slate-400 transition group-hover:text-slate-300">{item}</span>)}
-                    </div>
-                  </article>
-                </Reveal>
-              );
-            })}
-          </div>
+          <Reveal><SectionHeading eyebrow={t.skills.eyebrow} title={t.skills.title} description={t.skills.description} align="center" /></Reveal>
+          <Reveal delay={0.1}>
+            <ul className="technology-grid mt-14" aria-label={t.skills.eyebrow}>
+              {technologies.map(({ name, icon: Icon, color }) => (
+                <li key={name} className="technology-item" style={{ "--technology-color": color } as React.CSSProperties}>
+                  <Icon className="technology-icon" aria-hidden="true" />
+                  <span>{name}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </div>
       </section>
 
