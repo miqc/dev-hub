@@ -22,7 +22,7 @@ export function Typewriter({ text, delay = 0, speed = 70, className = "" }: Type
     }
 
     let index = 0;
-    let interval: ReturnType<typeof setInterval> | undefined;
+    let interval: number | undefined;
     setValue("");
     setIsComplete(false);
     const timeout = window.setTimeout(() => {

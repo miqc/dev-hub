@@ -103,6 +103,79 @@ a {
   animation: floor-pulse 5s ease-in-out infinite;
 }
 
+.hero-portrait-stage {
+  isolation: isolate;
+  perspective: 1000px;
+}
+
+.hero-portrait-float {
+  transform-origin: 50% 65%;
+  will-change: transform;
+  animation: portrait-float 6s cubic-bezier(.45, .05, .55, .95) infinite;
+}
+
+.hero-person-glow {
+  will-change: opacity, transform;
+  animation: portrait-glow 6s ease-in-out infinite;
+}
+
+.hero-orbit {
+  position: absolute;
+  z-index: -1;
+  border: 1px solid rgb(96 165 250 / .14);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-orbit-one {
+  inset: 15% 5% 13%;
+  transform: rotate(-12deg);
+  animation: orbit-breathe 8s ease-in-out infinite;
+}
+
+.hero-orbit-two {
+  inset: 22% 12% 19%;
+  border-color: rgb(167 139 250 / .12);
+  transform: rotate(18deg);
+  animation: orbit-breathe 8s 1.2s ease-in-out infinite reverse;
+}
+
+.hero-spark {
+  position: absolute;
+  z-index: 20;
+  width: .34rem;
+  height: .34rem;
+  border-radius: 999px;
+  background: #93c5fd;
+  box-shadow: 0 0 16px 4px rgb(59 130 246 / .38);
+  pointer-events: none;
+  animation: spark-drift 5s ease-in-out infinite;
+}
+
+.hero-spark-one { left: 7%; top: 31%; }
+.hero-spark-two { right: 5%; top: 47%; animation-delay: -1.8s; animation-duration: 6.5s; }
+.hero-spark-three { right: 20%; top: 13%; width: .22rem; height: .22rem; animation-delay: -3.2s; }
+
+@keyframes portrait-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-.35deg); }
+  50% { transform: translate3d(0, -16px, 0) rotate(.45deg); }
+}
+
+@keyframes portrait-glow {
+  0%, 100% { opacity: .68; transform: scale(.94); }
+  50% { opacity: 1; transform: scale(1.08) translateY(-2%); }
+}
+
+@keyframes orbit-breathe {
+  0%, 100% { opacity: .3; scale: .96; }
+  50% { opacity: .75; scale: 1.03; }
+}
+
+@keyframes spark-drift {
+  0%, 100% { opacity: .2; transform: translate3d(0, 8px, 0) scale(.75); }
+  50% { opacity: .95; transform: translate3d(4px, -12px, 0) scale(1); }
+}
+
 @keyframes floor-pulse {
   0%, 100% { opacity: .45; transform: translateX(-50%) scaleX(.92); }
   50% { opacity: .75; transform: translateX(-50%) scaleX(1.04); }
