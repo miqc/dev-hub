@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useState } from "react";
-import { motion } from "framer-motion";
+import { FormEvent, useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowDown,
   ArrowRight,
@@ -62,6 +62,18 @@ const technologies = [
 export function Portfolio() {
   const { t, language } = useLanguage();
   const [copied, setCopied] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const heroOpacityTarget = useTransform(heroScrollProgress, [0, 0.5, 0.95], [1, 1, 0]);
+  const heroYTarget = useTransform(heroScrollProgress, [0, 0.5, 1], [0, 0, -72]);
+  const heroScaleTarget = useTransform(heroScrollProgress, [0, 0.5, 1], [1, 1, 0.96]);
+  const heroOpacity = useSpring(heroOpacityTarget, { stiffness: 140, damping: 30, mass: 0.25 });
+  const heroY = useSpring(heroYTarget, { stiffness: 120, damping: 28, mass: 0.3 });
+  const heroScale = useSpring(heroScaleTarget, { stiffness: 120, damping: 28, mass: 0.3 });
 
   function submitContact(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -81,14 +93,24 @@ export function Portfolio() {
     <main className="overflow-hidden bg-[#080c14] text-slate-100">
       <Navbar />
 
-      <section id="home" className="relative flex min-h-screen items-center overflow-hidden pt-24">
+      <motion.section
+        ref={heroRef}
+        id="home"
+        className="relative flex min-h-screen items-center overflow-hidden pt-24"
+        style={{
+          opacity: reduceMotion ? 1 : heroOpacity,
+          y: reduceMotion ? 0 : heroY,
+          scale: reduceMotion ? 1 : heroScale,
+          transformOrigin: "center top",
+        }}
+      >
         <CodeField />
         <div className="hero-grid absolute inset-0 opacity-30" aria-hidden="true" />
         <div className="absolute left-[12%] top-[18%] size-72 rounded-full bg-blue-600/10 blur-[120px]" aria-hidden="true" />
         <div className="absolute bottom-[5%] right-[5%] size-96 rounded-full bg-violet-600/10 blur-[140px]" aria-hidden="true" />
 
         <div className="container-shell relative grid items-center gap-10 py-14 lg:grid-cols-[1.04fr_.96fr] lg:py-20">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className="relative z-10">
+          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, margin: "-80px" }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className="relative z-10">
 
 
             <p className="mb-3 text-sm font-medium uppercase tracking-[0.24em] text-slate-400">{t.hero.eyebrow}</p>
@@ -108,7 +130,7 @@ export function Portfolio() {
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }} className="hero-portrait-stage relative mx-auto w-full max-w-[540px] lg:mx-0 lg:ml-auto">
+          <motion.div initial={{ opacity: 0, scale: 0.94 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, margin: "-80px" }} transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }} className="hero-portrait-stage relative mx-auto w-full max-w-[540px] lg:mx-0 lg:ml-auto">
             <div className="hero-person-glow absolute inset-[18%_10%_14%] rounded-full bg-blue-500/20 blur-[90px]" aria-hidden="true" />
             <div className="hero-floor absolute bottom-[7%] left-1/2 h-16 w-[70%] -translate-x-1/2 rounded-[50%] bg-blue-500/20 blur-2xl" aria-hidden="true" />
             <div className="hero-floor-line absolute bottom-[10%] left-1/2 h-px w-[72%] -translate-x-1/2 bg-gradient-to-r from-transparent via-blue-300/45 to-transparent" aria-hidden="true" />
@@ -130,7 +152,7 @@ export function Portfolio() {
         <a href="#about" className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 items-center gap-2 text-[10px] font-semibold uppercase tracking-[.22em] text-slate-600 transition hover:text-slate-300 lg:flex">
           {t.hero.scroll}<ArrowDown size={14} className="animate-bounce" />
         </a>
-      </section>
+      </motion.section>
 
       <section id="about" className="section-space relative border-t border-white/[0.06]">
         <div className="container-shell grid gap-14 lg:grid-cols-[.8fr_1.2fr] lg:gap-24">
