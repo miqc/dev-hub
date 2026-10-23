@@ -18,46 +18,17 @@ import {
   Sparkles,
   TerminalSquare,
 } from "lucide-react";
-import {
-  SiDjango,
-  SiDocker,
-  SiGit,
-  SiJavascript,
-  SiN8N,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiPostgresql,
-  SiPython,
-  SiReact,
-  SiTailwindcss,
-  SiTypescript,
-} from "react-icons/si";
 import { useLanguage } from "@/context/language-context";
 import { Navbar } from "@/components/navbar";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Typewriter } from "@/components/ui/typewriter";
 import { CodeField } from "@/components/ui/code-field";
-
-const GITHUB_URL = "https://github.com/miqc";
-const LINKEDIN_URL = "https://www.linkedin.com/in/micaelleal";
-const EMAIL = "micael.leal.dev@gmail.com";
+import { technologies } from "@/lib/technologies";
+import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/profile";
+import { copyText } from "@/lib/clipboard";
 
 const projectIcons = [TerminalSquare, Braces, Sparkles];
-const technologies = [
-  { name: "TypeScript", icon: SiTypescript, color: "#3178c6" },
-  { name: "JavaScript", icon: SiJavascript, color: "#f7df1e" },
-  { name: "Python", icon: SiPython, color: "#3776ab" },
-  { name: "React", icon: SiReact, color: "#61dafb" },
-  { name: "Django", icon: SiDjango, color: "#44b78b" },
-  { name: "Next.js", icon: SiNextdotjs, color: "#ffffff" },
-  { name: "n8n", icon: SiN8N, color: "#ea4b71" },
-  { name: "PostgreSQL", icon: SiPostgresql, color: "#4169e1" },
-  { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06b6d4" },
-  { name: "Node.js", icon: SiNodedotjs, color: "#5fa04e" },
-  { name: "Docker", icon: SiDocker, color: "#2496ed" },
-  { name: "Git", icon: SiGit, color: "#f05032" },
-];
 
 export function Portfolio() {
   const { t, language } = useLanguage();
@@ -84,7 +55,7 @@ export function Portfolio() {
   }
 
   async function copyEmail() {
-    await navigator.clipboard.writeText(EMAIL);
+    if (!(await copyText(EMAIL))) return;
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1800);
   }
@@ -115,7 +86,7 @@ export function Portfolio() {
 
             <p className="mb-3 text-sm font-medium uppercase tracking-[0.24em] text-slate-400">{t.hero.eyebrow}</p>
             <h1 className="font-display text-5xl font-semibold leading-[.95] tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl xl:text-[5.35rem]">
-              <Typewriter text="Micael Leal." speed={75} className="text-white" />
+              <Typewriter text="Micael Leal" speed={75} className="text-white" />
             </h1>
             <h2 className="mt-5 min-h-9 font-display text-xl font-medium tracking-tight text-slate-200 sm:text-2xl lg:text-3xl"><Typewriter text={t.hero.role} delay={1100} speed={58} /></h2>
 
@@ -141,10 +112,6 @@ export function Portfolio() {
             <span className="hero-spark hero-spark-three" aria-hidden="true" />
             <div className="hero-portrait-float relative">
               <Image src="/heroPNG.png" alt={t.hero.imageAlt} width={1280} height={1280} priority sizes="(max-width: 1024px) 90vw, 43vw" className="relative z-10 aspect-square w-full object-contain drop-shadow-[0_28px_35px_rgba(2,6,23,0.55)]" />
-            </div>
-            <div className="absolute -bottom-4 -left-4 hidden items-center gap-3 rounded-2xl border border-white/10 bg-[#101722]/90 px-4 py-3 shadow-xl backdrop-blur-xl sm:flex">
-              <span className="grid size-9 place-items-center rounded-xl bg-blue-500/15 text-blue-400"><Code2 size={18} /></span>
-              <div><p className="font-display text-sm font-semibold text-white">{language === "pt" ? "Código com intenção" : "Code with intent"}</p><p className="text-[11px] text-slate-500">&lt;build /&gt; · ship · improve</p></div>
             </div>
           </motion.div>
         </div>
@@ -266,7 +233,7 @@ export function Portfolio() {
 
       <footer className="border-t border-white/[0.06] py-8">
         <div className="container-shell flex flex-col items-center justify-between gap-4 text-center text-xs text-slate-600 sm:flex-row sm:text-left">
-          <p>© {new Date().getFullYear()} Micael Leal. {t.footer.rights}</p>
+          <p>© {new Date().getFullYear()} Micael Leal {t.footer.rights}</p>
           <p>{t.footer.made}</p>
         </div>
       </footer>

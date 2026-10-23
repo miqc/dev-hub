@@ -81,6 +81,19 @@ a {
   mask-image: linear-gradient(to bottom, black, transparent 92%);
 }
 
+.flight-path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: flight-draw 9s cubic-bezier(.45, .05, .55, .95) infinite;
+}
+
+@keyframes flight-draw {
+  0% { stroke-dashoffset: 1400; opacity: 0; }
+  12% { opacity: .9; }
+  60% { stroke-dashoffset: 0; opacity: .9; }
+  100% { stroke-dashoffset: -1400; opacity: 0; }
+}
+
 .code-field {
   opacity: 1;
   mask-image: linear-gradient(to bottom, transparent 3%, black 22%, black 72%, transparent 100%);
