@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { FormEvent, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
@@ -18,6 +17,7 @@ import {
   Sparkles,
   TerminalSquare,
 } from "lucide-react";
+import { HeroPortrait } from "@/components/ui/hero-portrait";
 import { useLanguage } from "@/context/language-context";
 import { Navbar } from "@/components/navbar";
 import { Reveal } from "@/components/ui/reveal";
@@ -101,18 +101,8 @@ export function Portfolio() {
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, scale: 0.94 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, margin: "-80px" }} transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }} className="hero-portrait-stage relative mx-auto w-full max-w-[540px] lg:mx-0 lg:ml-auto">
-            <div className="hero-person-glow absolute inset-[18%_10%_14%] rounded-full bg-blue-500/20 blur-[90px]" aria-hidden="true" />
-            <div className="hero-floor absolute bottom-[7%] left-1/2 h-16 w-[70%] -translate-x-1/2 rounded-[50%] bg-blue-500/20 blur-2xl" aria-hidden="true" />
-            <div className="hero-floor-line absolute bottom-[10%] left-1/2 h-px w-[72%] -translate-x-1/2 bg-gradient-to-r from-transparent via-blue-300/45 to-transparent" aria-hidden="true" />
-            <div className="hero-orbit hero-orbit-one" aria-hidden="true" />
-            <div className="hero-orbit hero-orbit-two" aria-hidden="true" />
-            <span className="hero-spark hero-spark-one" aria-hidden="true" />
-            <span className="hero-spark hero-spark-two" aria-hidden="true" />
-            <span className="hero-spark hero-spark-three" aria-hidden="true" />
-            <div className="hero-portrait-float relative">
-              <Image src="/heroPNG.png" alt={t.hero.imageAlt} width={1280} height={1280} priority sizes="(max-width: 1024px) 90vw, 43vw" className="relative z-10 aspect-square w-full object-contain drop-shadow-[0_28px_35px_rgba(2,6,23,0.55)]" />
-            </div>
+          <motion.div initial={{ opacity: 0, scale: 0.94 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, margin: "-80px" }} transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }} className="mx-auto w-full max-w-[540px] lg:mx-0 lg:ml-auto">
+            <HeroPortrait alt={t.hero.imageAlt} priority />
           </motion.div>
         </div>
 

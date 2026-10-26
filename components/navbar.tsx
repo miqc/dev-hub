@@ -24,14 +24,9 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const links = onEmbraer
-    ? [
-        ["resumo", t.embraer.nav.summary],
-        ["trajetoria", t.embraer.nav.trajectory],
-        ["stack", t.embraer.nav.stack],
-        ["projetos", t.embraer.nav.projects],
-        ["contato", t.embraer.nav.contact],
-      ]
+  // No /embraer a navegação é a barra de abas da própria página.
+  const links: readonly (readonly [string, string])[] = onEmbraer
+    ? []
     : [
         ["about", t.nav.about],
         ["skills", t.nav.skills],

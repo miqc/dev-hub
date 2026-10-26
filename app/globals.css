@@ -379,3 +379,88 @@ a {
     transition-duration: .01ms !important;
   }
 }
+
+/* Residência: duas colunas em telas largas, empilhado no mobile. */
+.residence-split {
+  justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .residence-split {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: 3.5rem;
+  }
+
+  .residence-split > div:last-child {
+    border-top: 0;
+    border-left: 1px solid rgb(255 255 255 / 0.1);
+    padding-top: 0;
+    padding-left: 3rem;
+  }
+}
+
+/* Cards de idioma: lado a lado e altos, preenchendo a altura do slide. */
+.language-skills {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 640px) {
+  .language-skills {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Deck de slides: exportação para PDF com um slide por página 16:9. */
+@page {
+  size: 1280px 720px;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    background: #080c14 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .deck-page {
+    display: flex;
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+  }
+
+  .deck-page:last-child {
+    break-after: auto;
+  }
+
+  /* O print do Chromium não dispara breakpoints de viewport; as grades são fixadas aqui. */
+  .slide-identity {
+    display: grid;
+    grid-template-columns: 1.18fr 0.82fr;
+    align-items: center;
+  }
+
+  .residence-split {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: 3.5rem;
+  }
+
+  .residence-split > div:last-child {
+    border-top: 0;
+    border-left: 1px solid rgb(255 255 255 / 0.1);
+    padding-top: 0;
+    padding-left: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .slide-identity {
+    grid-template-columns: 1.18fr 0.82fr;
+  }
+}

@@ -77,6 +77,13 @@ const pt = {
     title: "Experiência & formação.",
     items: [
       {
+        period: "1 ano e 3 meses",
+        title: "Estágio",
+        company: "Prefeitura Municipal de São José dos Campos",
+        description:
+          "Atuação em andamento na administração pública municipal, conciliada com graduação dupla e projetos próprios de desenvolvimento.",
+      },
+      {
         period: "Atual",
         title: "Desenvolvedor de Software",
         company: "Projetos independentes",
@@ -91,11 +98,18 @@ const pt = {
           "Construção de interfaces responsivas, APIs robustas e integrações orientadas às necessidades reais do negócio.",
       },
       {
-        period: "Formação",
-        title: "Tecnologia & Software",
-        company: "Aprendizado contínuo",
+        period: "Último semestre",
+        title: "Análise e Desenvolvimento de Sistemas",
+        company: "UNIP",
         description:
-          "Formação técnica complementada por estudo constante, projetos práticos e troca com a comunidade de desenvolvimento.",
+          "Graduação em conclusão, em paralelo a projetos práticos de desenvolvimento web.",
+      },
+      {
+        period: "1º semestre",
+        title: "Inteligência Artificial",
+        company: "UNICIVE",
+        description:
+          "Segunda graduação em andamento, cursada simultaneamente.",
       },
     ],
   },
@@ -133,7 +147,8 @@ const pt = {
       { label: "Foco", value: "Desenvolvimento full stack de produtos web" },
       { label: "Stack", value: "TypeScript · React · Next.js · Python · Django" },
       { label: "Qualidade", value: "Clean architecture, código legível e testes" },
-      { label: "Idiomas", value: "Português nativo · Inglês técnico" },
+      { label: "Localização", value: "Joseense · São José dos Campos, SP" },
+      { label: "Idiomas", value: "Português nativo · Inglês: escrita e leitura intermediárias, conversação básica" },
     ],
     cardFooter: "Ver portfólio completo",
     nav: {
@@ -314,6 +329,13 @@ const en: typeof pt = {
     title: "Experience & education.",
     items: [
       {
+        period: "1 year 3 months",
+        title: "Intern",
+        company: "São José dos Campos City Hall",
+        description:
+          "Ongoing role in municipal public administration, alongside a dual degree and independent development projects.",
+      },
+      {
         period: "Present",
         title: "Software Developer",
         company: "Independent projects",
@@ -328,11 +350,18 @@ const en: typeof pt = {
           "Building responsive interfaces, robust APIs, and integrations grounded in real business needs.",
       },
       {
-        period: "Education",
-        title: "Technology & Software",
-        company: "Continuous learning",
+        period: "Final semester",
+        title: "Systems Analysis and Development",
+        company: "UNIP",
         description:
-          "Technical education complemented by constant study, hands-on projects, and knowledge sharing with the development community.",
+          "Degree in completion, alongside hands-on web development projects.",
+      },
+      {
+        period: "1st semester",
+        title: "Artificial Intelligence",
+        company: "UNICIVE",
+        description:
+          "Second degree in progress, taken simultaneously.",
       },
     ],
   },
@@ -370,7 +399,8 @@ const en: typeof pt = {
       { label: "Focus", value: "Full stack development of web products" },
       { label: "Stack", value: "TypeScript · React · Next.js · Python · Django" },
       { label: "Quality", value: "Clean architecture, readable code, and tests" },
-      { label: "Languages", value: "Native Portuguese · Technical English" },
+      { label: "Location", value: "Born and raised in São José dos Campos, SP" },
+      { label: "Languages", value: "Native Portuguese · English: intermediate writing and reading, basic conversation" },
     ],
     cardFooter: "View full portfolio",
     nav: {

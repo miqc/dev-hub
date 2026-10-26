@@ -92,3 +92,29 @@ export function CodeField() {
 
   return <canvas ref={canvasRef} className="code-field pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true" />;
 }
+
+/**
+ * Versão determinística do CodeField, em HTML.
+ * O canvas não é desenhado quando a página é impressa (fica em display:none até o print),
+ * então o PDF usaria esta camada para manter a mesma textura do slide ao vivo.
+ */
+export function CodeFieldStatic() {
+  return (
+    <div className="code-field pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      {Array.from({ length: 34 }, (_, index) => (
+        <span
+          key={index}
+          className="absolute font-mono font-medium text-[#7db4ff]"
+          style={{
+            left: `${(index * 29.7 + 3.5) % 97}%`,
+            top: `${(index * 47.3 + 6) % 92}%`,
+            fontSize: `${12 + ((index * 7) % 6)}px`,
+            opacity: 0.18 + ((index * 13) % 14) / 100,
+          }}
+        >
+          {TOKENS[index % TOKENS.length]}
+        </span>
+      ))}
+    </div>
+  );
+}
