@@ -396,8 +396,13 @@ a {
   /* Grades de 3 colunas também não disparam breakpoint no print. */
   .pillar-others {
     display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 1.75rem;
+  }
+
+  .deck-cols-2 {
+    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 2.5rem;
   }
 
   .deck-cols-3 {
@@ -414,26 +419,47 @@ a {
 }
 
 /* Colunas editoriais: fio vertical no desktop, fio horizontal empilhado no mobile. */
+.deck-cols-2,
 .deck-cols-3,
 .language-skills {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.deck-cols-3,
+.language-skills {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 @media (min-width: 701px) {
+  .deck-cols-2 > *,
+  .deck-cols-3 > *,
+  .language-skills > * {
+    padding-right: 2.5rem;
+  }
+
+  .deck-cols-2 > *:last-child,
+  .deck-cols-3 > *:last-child,
+  .language-skills > *:last-child {
+    padding-right: 0;
+  }
+
+  .deck-cols-2 > * + *,
   .deck-cols-3 > * + *,
   .language-skills > * + * {
     border-left: 1px solid rgb(255 255 255 / 0.09);
-    padding-left: 2rem;
+    padding-left: 2.5rem;
   }
 }
 
 @media (max-width: 700px) {
+  .deck-cols-2,
   .deck-cols-3,
   .language-skills {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .deck-cols-2 > *,
   .deck-cols-3 > *,
   .language-skills > * {
     padding-left: 0;
@@ -444,6 +470,7 @@ a {
     gap: 0;
   }
 
+  .deck-cols-2 > * + *,
   .deck-cols-3 > * + *,
   .language-skills > * + * {
     border-top: 1px solid rgb(255 255 255 / 0.09);
@@ -508,10 +535,70 @@ a {
   }
 }
 
+/* Pilar: cinco cards quadrados, um por pilar. */
+.pillar-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+@media (min-width: 701px) {
+  .pillar-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+/* No mobile, cinco quadrados lado a lado não cabem: 2 colunas já ocupam 3 linhas. */
+@media (max-width: 700px) {
+  .pillar-grid {
+    gap: 0.5rem;
+  }
+
+  .pillar-grid li {
+    aspect-ratio: auto;
+    min-height: 4.5rem;
+    padding: 0.65rem;
+  }
+
+  .pillar-grid li span:last-child {
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+}
+
+/* Idioma no mobile: cada habilidade vira uma linha compacta, sem medidor. */
+@media (max-width: 700px) {
+  .lang-skill {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid rgb(255 255 255 / 0.06);
+    padding-block: 0.55rem;
+  }
+
+  .lang-skill:last-child {
+    border-bottom: 0;
+  }
+
+  .lang-skill-level {
+    margin-top: 0;
+    font-size: 1rem;
+  }
+
+  .lang-skill-meter {
+    display: none;
+  }
+}
+
 /* Deck de slides: exportação para PDF com um slide por página 16:9. */
 @page {
   size: 1280px 720px;
   margin: 0;
+}
+
+.deck-print {
+  display: none;
 }
 
 @media print {
@@ -522,11 +609,23 @@ a {
     print-color-adjust: exact;
   }
 
+  /* A versão interativa some; a cópia de impressão assume, com CSS próprio. */
+  .deck-live {
+    display: none !important;
+  }
+
+  .deck-print {
+    display: block;
+  }
+
   .deck-page {
     display: flex;
     width: 1280px;
     height: 720px;
     overflow: hidden;
+    break-after: page;
+    background: #080c14;
+    color: #f1f5f9;
   }
 
   .deck-page:last-child {
@@ -540,6 +639,12 @@ a {
     align-items: center;
   }
 
+  .slide-closing {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+  }
+
   .residence-split {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
@@ -550,8 +655,13 @@ a {
   /* Grades de 3 colunas também não disparam breakpoint no print. */
   .pillar-others {
     display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 1.75rem;
+  }
+
+  .deck-cols-2 {
+    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 2.5rem;
   }
 
   .deck-cols-3 {
@@ -570,5 +680,85 @@ a {
 @media (min-width: 1024px) {
   .slide-identity {
     grid-template-columns: 1.18fr 0.82fr;
+  }
+}
+
+/* Fechamento: mesma composição do slide 1 — texto à esquerda, avatar à direita. */
+.slide-closing {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+}
+
+@media (max-width: 1023px) {
+  .slide-closing {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Print: a viewport de paginação é estreita e dispara os breakpoints de mobile.
+   Regras no fim do arquivo vencem a cascata e restauram o layout de desktop. */
+@media print {
+  .slide-identity {
+    display: grid !important;
+    grid-template-columns: 1.18fr 0.82fr !important;
+    align-items: center;
+  }
+
+  .slide-closing {
+    display: grid !important;
+    grid-template-columns: 1.1fr 0.9fr !important;
+    align-items: center;
+  }
+
+  .residence-split {
+    display: grid !important;
+    grid-template-columns: 1.05fr 0.95fr !important;
+    align-items: center;
+    gap: 3.5rem;
+  }
+
+  .deck-cols-2 {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .deck-cols-3,
+  .language-skills {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .pillar-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+
+  .project-list {
+    display: grid !important;
+    flex: 1 1 auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .project-list .deck-project {
+    flex-direction: column !important;
+  }
+
+  .lang-skill {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lang-skill-meter {
+    display: block;
+  }
+
+  /* O bloco de competências é centralizado pelo flex da versão interativa;
+     no print a moldura de bloco some, então repetimos a centralização. */
+  .competence-block {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: center;
   }
 }

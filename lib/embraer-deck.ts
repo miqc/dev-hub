@@ -38,7 +38,7 @@ export type DeckSlide = {
   /** Rótulo do espaço reservado; o conteúdo real ainda não existe. */
   empty?: string;
   /** Conteúdo já preenchido de um eixo. Quando ausente, o slide mostra o espaço vazio. */
-  language?: LanguageBlock;
+  languages?: LanguageBlock[];
   place?: ResidenceBlock;
 };
 
@@ -63,12 +63,10 @@ export type TechItem = { name: string; level: SkillLevel };
 
 export type TechGroup = { area: string; items: TechItem[] };
 
+/** Competência exibida no slide, com uma linha curta de descrição. */
 export type Competence = {
   name: string;
-  /** O que a competência significa na prática, em uma linha. */
-  claim: string;
-  /** O fato verificável que a prova. */
-  proof: string;
+  detail: string;
 };
 
 export type ProjectCard = {
@@ -105,8 +103,8 @@ export type ResidenceBlock = {
 /** Um idioma com o nível decomposto por habilidade. */
 export type LanguageBlock = {
   name: string;
-  /** Resumo em uma linha, lido de relance. */
-  summary: string;
+  /** Resumo em uma linha, lido de relance. Ausente quando o nível é uniforme. */
+  summary?: string;
   skills: LanguageSkill[];
 };
 
@@ -132,16 +130,27 @@ export const deckAxes: DeckSlide[] = [
     kicker: "Eixo 1 de 6",
     headline: "Idioma",
     prompt:
-      "Idiomas que você possui conhecimento e seu nível de proficiência (básico, intermediário, avançado ou fluente). Se desejar, conte como adquiriu esse conhecimento.",
-    language: {
-      name: "Inglês",
-      summary: "Escrita e leitura intermediárias · Conversação básica",
-      skills: [
-        { label: "Escrita", level: "Intermediário" },
-        { label: "Leitura", level: "Intermediário" },
-        { label: "Conversação", level: "Básico" },
-      ],
-    },
+      "Idiomas que possuo conhecimento e o nível de proficiência.",
+    languages: [
+      {
+        name: "Inglês",
+        summary: "Escrita e leitura intermediárias · Conversação básica",
+        skills: [
+          { label: "Escrita", level: "Intermediário" },
+          { label: "Leitura", level: "Intermediário" },
+          { label: "Conversação", level: "Básico" },
+        ],
+      },
+      {
+        name: "Espanhol",
+        summary: "Básico em todas as habilidades",
+        skills: [
+          { label: "Escrita", level: "Básico" },
+          { label: "Leitura", level: "Básico" },
+          { label: "Conversação", level: "Básico" },
+        ],
+      },
+    ],
   },
   {
     id: "residencia",
@@ -211,19 +220,14 @@ export const deckAxes: DeckSlide[] = [
     headline: "Competências e habilidades",
     prompt:
       "Compartilhe características que fazem parte da sua forma de agir e aprender. Utilize exemplos da sua trajetória para mostrar como elas aparecem na prática.",
-    internship: internship,
     competences: [
       {
         name: "Aprender rápido",
-        claim: "Entro em stack nova e entrego em semanas, não em semestres.",
-        proof:
-          "SmartCall em quatro plataformas — Python, React, React Native e C# — enquanto cursava duas graduações.",
+        detail: "Facilidade para aprender e pegar o trabalho no dia a dia.",
       },
       {
         name: "Pensar em produção",
-        claim: "Não paro em 'funciona na minha máquina'.",
-        proof:
-          "Distrito Financeiro roda em SQLite local e PostgreSQL em produção, com senha em scrypt, Docker e deploy configurado.",
+        detail: "Aprendido na prática, no contexto real do estágio na Prefeitura.",
       },
     ],
   },
@@ -312,7 +316,7 @@ export const deckSlides: DeckSlide[] = [
     kicker: "Etapa Dinâmica 2027",
     eyebrow: "Olá, eu sou",
     headline: "Micael Leal",
-    support: "Estudante de Desenvolvimento",
+    support: "Estagiário de Desenvolvimento",
     education: [
       {
         course: "Inteligência Artificial",
@@ -336,7 +340,7 @@ export const deckSlides: DeckSlide[] = [
     blockIds: ["fechamento"],
     kind: "closing",
     kicker: "Fechamento",
-    headline: "São José dos Campos. Pronto para começar.",
-    support: "Micael Leal · Estudante de Desenvolvimento",
+    headline: "Obrigado!",
+    support: "Micael Leal · Estagiário de Desenvolvimento",
   },
 ];

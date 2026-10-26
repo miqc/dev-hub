@@ -115,7 +115,7 @@ const pt = {
   },
   contact: {
     eyebrow: "Contato",
-    title: "Tem uma ideia? Vamos construí-la juntos.",
+    title: "Tem uma ideia? Vamos construir juntos.",
     description:
       "Estou sempre aberto a conversar sobre produtos, desafios técnicos e novas oportunidades.",
     name: "Nome",
@@ -129,7 +129,7 @@ const pt = {
     socialTitle: "Ou encontre-me por aqui",
   },
   footer: {
-    made: "Projetado e desenvolvido com atenção aos detalhes.",
+    made: "Projetado e desenvolvido com carinho.",
     rights: "Todos os direitos reservados.",
   },
   embraer: {
@@ -148,7 +148,7 @@ const pt = {
       { label: "Stack", value: "TypeScript · React · Next.js · Python · Django" },
       { label: "Qualidade", value: "Clean architecture, código legível e testes" },
       { label: "Localização", value: "Joseense · São José dos Campos, SP" },
-      { label: "Idiomas", value: "Português nativo · Inglês: escrita e leitura intermediárias, conversação básica" },
+      { label: "Idiomas", value: "Português nativo · Inglês: escrita e leitura intermediárias, conversação básica · Espanhol básico" },
     ],
     cardFooter: "Ver portfólio completo",
     nav: {
@@ -400,7 +400,7 @@ const en: typeof pt = {
       { label: "Stack", value: "TypeScript · React · Next.js · Python · Django" },
       { label: "Quality", value: "Clean architecture, readable code, and tests" },
       { label: "Location", value: "Born and raised in São José dos Campos, SP" },
-      { label: "Languages", value: "Native Portuguese · English: intermediate writing and reading, basic conversation" },
+      { label: "Languages", value: "Native Portuguese · English: intermediate writing and reading, basic conversation · Basic Spanish" },
     ],
     cardFooter: "View full portfolio",
     nav: {

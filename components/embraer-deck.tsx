@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Maximize, Minimize, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Globe, Github, Linkedin, Mail, Maximize, Minimize, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { CodeField, CodeFieldStatic } from "@/components/ui/code-field";
@@ -11,17 +11,17 @@ import { HeroPortrait } from "@/components/ui/hero-portrait";
 import { deckSlides, type DeckSlide, type LanguageSkill } from "@/lib/embraer-deck";
 import { culturePillars } from "@/lib/embraer-script";
 import { formatClock } from "@/lib/embraer-script";
-import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/profile";
+import { EMAIL, GITHUB_URL, LINKEDIN_URL, PORTFOLIO_URL } from "@/lib/profile";
 
 /** Escala oficial do documento: básico, intermediário, avançado, fluente. */
 const LEVEL_SCALE: LanguageSkill["level"][] = ["Básico", "Intermediário", "Avançado", "Fluente"];
 
 const targetSeconds = (slide: DeckSlide) => slide.seconds;
 
-function SlideFrame({ slide, index, live }: { slide: DeckSlide; index: number; live: boolean }) {
+function SlideFrame({ slide, live }: { slide: DeckSlide; live: boolean }) {
   return (
     <div className="relative isolate flex flex-1 flex-col justify-between px-6 py-8 sm:px-12 sm:py-12 lg:px-20 lg:py-16">
-      {slide.kind === "identity" ? (
+      {slide.kind === "identity" || slide.kind === "closing" ? (
         <>
           {live ? <CodeField /> : <CodeFieldStatic />}
           <div className="hero-grid pointer-events-none absolute inset-0 -z-10 opacity-30" aria-hidden="true" />
@@ -40,12 +40,7 @@ function SlideFrame({ slide, index, live }: { slide: DeckSlide; index: number; l
           <span className="hidden h-px w-8 shrink-0 bg-blue-400/70 sm:inline-block" aria-hidden="true" />
           <span className="truncate">{slide.kicker}</span>
         </p>
-        <div className="flex shrink-0 items-center gap-3 sm:gap-5">
-          <EmbraerLogo className="h-2.5 w-auto shrink-0 text-slate-500 sm:h-3.5" />
-          <p className="whitespace-nowrap font-display text-[9px] tabular-nums tracking-[.14em] text-slate-600 sm:text-xs sm:tracking-[.2em]">
-            {String(index + 1).padStart(2, "0")} / {String(deckSlides.length).padStart(2, "0")}
-          </p>
-        </div>
+        <EmbraerLogo className="h-2.5 w-auto shrink-0 text-slate-500 sm:h-3.5" />
       </header>
 
       <div className="flex flex-1 flex-col justify-center py-8">
@@ -139,45 +134,56 @@ function SlideFrame({ slide, index, live }: { slide: DeckSlide; index: number; l
               {slide.prompt}
             </p>
 
-            {slide.language ? (
-              <div className="mt-9 flex flex-1 flex-col">
-                <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                  <h2 className="font-display text-[clamp(1.2rem,2vw,1.5rem)] font-medium text-white">
-                    {slide.language.name}
-                  </h2>
-                  <p className="max-w-md text-[clamp(.75rem,1.1vw,.92rem)] leading-snug text-slate-500">
-                    {slide.language.summary}
-                  </p>
-                </div>
-
-                <div className="language-skills mt-7 flex-1 border-t border-white/[0.09]">
-                  {slide.language.skills.map((skill) => {
-                    const step = LEVEL_SCALE.indexOf(skill.level);
-                    return (
-                      <div key={skill.label} className="flex flex-col justify-between py-5 sm:py-8">
-                        <p className="text-[13px] text-slate-500">{skill.label}</p>
-
-                        <p className="mt-4 font-display text-[clamp(1.3rem,3.2vw,2.6rem)] font-medium leading-none tracking-[-0.03em] text-white sm:mt-6">
-                          {skill.level}
+            {slide.languages?.length ? (
+              <div className="mt-5 flex flex-1 flex-col gap-6 sm:mt-7 sm:gap-9">
+                {slide.languages.map((lang, position) => (
+                  <section
+                    key={lang.name}
+                    className={`flex flex-1 flex-col ${position > 0 ? "border-t border-white/[0.06] pt-5 sm:pt-7" : ""}`}
+                  >
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                      <h2 className="font-display text-[clamp(1.1rem,1.8vw,1.4rem)] font-medium text-white">
+                        {lang.name}
+                      </h2>
+                      {lang.summary ? (
+                        <p className="text-[clamp(.75rem,1.05vw,.88rem)] leading-snug text-slate-500">
+                          {lang.summary}
                         </p>
+                      ) : null}
+                    </div>
 
-                        <div className="mt-5 sm:mt-9">
-                          <div className="flex gap-1.5" aria-hidden="true">
-                            {LEVEL_SCALE.map((level, position) => (
-                              <span
-                                key={level}
-                                className={`h-0.5 flex-1 ${position <= step ? "bg-white/70" : "bg-white/[0.12]"}`}
-                              />
-                            ))}
+                    <div className="language-skills mt-4 flex-1 border-t border-white/[0.09]">
+                      {lang.skills.map((skill) => {
+                        const step = LEVEL_SCALE.indexOf(skill.level);
+                        return (
+                          <div key={skill.label} className="lang-skill py-3 sm:py-4">
+                            <p className="lang-skill-label text-[12px] text-slate-500">{skill.label}</p>
+
+                            <p className="lang-skill-level mt-2 font-display text-[clamp(1rem,2.3vw,1.75rem)] font-medium leading-none tracking-[-0.03em] text-white sm:mt-3">
+                              {skill.level}
+                            </p>
+
+                            <div className="lang-skill-meter mt-2 sm:mt-3">
+                              <div className="flex gap-1.5" aria-hidden="true">
+                                {LEVEL_SCALE.map((level, position) => (
+                                  <span
+                                    key={level}
+                                    className={`h-0.5 flex-1 ${
+                                      position <= step ? "bg-white/70" : "bg-white/[0.12]"
+                                    }`}
+                                  />
+                                ))}
+                              </div>
+                              <p className="mt-1.5 text-[10px] text-slate-600 sm:mt-2">
+                                {step + 1} de {LEVEL_SCALE.length}
+                              </p>
+                            </div>
                           </div>
-                          <p className="mt-3 text-[11px] text-slate-600">
-                            {step + 1} de {LEVEL_SCALE.length}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                        );
+                      })}
+                    </div>
+                  </section>
+                ))}
               </div>
             ) : slide.projects?.length ? (
               <div className="project-list mt-6 grid content-center gap-3 sm:grid-cols-3">
@@ -232,79 +238,49 @@ function SlideFrame({ slide, index, live }: { slide: DeckSlide; index: number; l
                 })}
               </div>
             ) : slide.pillarChoice ? (
-              <div className="mt-9 flex flex-1 flex-col">
-                {culturePillars
-                  .filter((pillar) => pillar.id === slide.pillarChoice?.chosenId)
-                  .map((pillar) => (
-                    <article key={pillar.id}>
-                      <p className="text-[13px] text-slate-500">
-                        Pilar {String(pillar.index).padStart(2, "0")} — escolhido entre cinco
-                      </p>
-
-                      <h2 className="mt-3 font-display text-[clamp(1.6rem,3.9vw,3rem)] font-semibold leading-[1.06] tracking-[-0.04em] text-white">
-                        {pillar.label}
-                      </h2>
-
-                      <ul className="mt-8 grid gap-x-10 gap-y-4 border-t border-white/[0.09] pt-6 sm:grid-cols-3">
-                        {pillar.lines.map((line) => (
-                          <li key={line} className="text-[clamp(.85rem,1.1vw,.95rem)] leading-relaxed text-slate-400">
-                            {line}
-                          </li>
-                        ))}
-                      </ul>
-                    </article>
-                  ))}
-
-                <div className="mt-auto pt-12">
-                  <p className="text-[13px] text-slate-600">Os outros quatro</p>
-                  <ul className="pillar-others mt-3 grid">
-                    {culturePillars
-                      .filter((pillar) => pillar.id !== slide.pillarChoice?.chosenId)
-                      .map((pillar) => (
-                        <li key={pillar.id} className="flex items-baseline gap-3 py-2">
-                          <span className="font-display text-xs tabular-nums text-slate-700">
-                            {String(pillar.index).padStart(2, "0")}
-                          </span>
-                          <span className="text-[clamp(.78rem,1vw,.86rem)] leading-snug text-slate-500">
-                            {pillar.label}
-                          </span>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
+              <div className="mt-7 flex flex-1 flex-col justify-center">
+                <ul className="pillar-grid">
+                  {culturePillars.map((pillar) => {
+                    const chosen = pillar.id === slide.pillarChoice?.chosenId;
+                    return (
+                      <li
+                        key={pillar.id}
+                        className={`flex aspect-square flex-col justify-between rounded-xl border p-5 ${
+                          chosen ? "border-blue-400/60 bg-blue-500/[0.08]" : "border-white/[0.08] bg-white/[0.02]"
+                        }`}
+                      >
+                        <span
+                          className={`font-display text-[11px] tabular-nums ${
+                            chosen ? "text-blue-300" : "text-slate-600"
+                          }`}
+                        >
+                          {String(pillar.index).padStart(2, "0")}
+                        </span>
+                        <span
+                          className={`font-display text-[clamp(.9rem,1.45vw,1.3rem)] font-medium leading-snug ${
+                            chosen ? "text-white" : "text-slate-500"
+                          }`}
+                        >
+                          {pillar.label}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
             ) : slide.competences?.length ? (
-              <div className="mt-6 flex flex-1 flex-col">
-                {slide.internship ? (
-                  <p className="flex flex-wrap items-center gap-x-2 px-1 text-[clamp(.72rem,1.1vw,.9rem)] font-medium text-slate-500">
-                    <span className="font-display text-slate-300">{slide.internship.role}</span>
-                    <span className="text-slate-700" aria-hidden="true">·</span>
-                    <span>{slide.internship.organization}</span>
-                    <span className="text-slate-700" aria-hidden="true">·</span>
-                    <span>{slide.internship.duration}</span>
-                  </p>
-                ) : null}
-
-                <div className="mt-4 grid flex-1 gap-3 md:grid-cols-2">
+              <div className="competence-block flex flex-1 flex-col justify-center">
+                <div className="deck-cols-2 border-y border-white/[0.09]">
                   {slide.competences.map((item, position) => (
-                    <article
-                      key={item.name}
-                      className="flex flex-col justify-center rounded-2xl border border-white/10 bg-white/[0.03] p-7 sm:p-9"
-                    >
-                      <div>
-                        <span className="font-display text-[11px] font-bold tracking-[.24em] text-blue-400/70">
-                          {String(position + 1).padStart(2, "0")}
-                        </span>
-                        <h2 className="mt-4 font-display text-[clamp(1.5rem,3.4vw,2.8rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">
-                          {item.name}
-                        </h2>
-                        <p className="mt-4 text-[clamp(.98rem,1.7vw,1.45rem)] font-medium leading-snug text-blue-200">
-                          {item.claim}
-                        </p>
-                      </div>
-
-                      <p className="mt-8 border-l-2 border-white/15 pl-4 text-[clamp(.85rem,1.3vw,1.05rem)] leading-relaxed text-slate-400">
-                        {item.proof}
+                    <article key={item.name} className="flex flex-col justify-center gap-3 py-10">
+                      <span className="font-display text-[11px] tabular-nums tracking-[.24em] text-slate-600">
+                        {String(position + 1).padStart(2, "0")}
+                      </span>
+                      <h2 className="font-display text-[clamp(1.5rem,3.4vw,2.8rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">
+                        {item.name}
+                      </h2>
+                      <p className="max-w-sm text-[clamp(.88rem,1.25vw,1.05rem)] leading-relaxed text-slate-400">
+                        {item.detail}
                       </p>
                     </article>
                   ))}
@@ -387,20 +363,63 @@ function SlideFrame({ slide, index, live }: { slide: DeckSlide; index: number; l
 
         {slide.kind === "closing" ? (
           <div>
-            <h1 className="max-w-4xl font-display text-[clamp(1.75rem,4.6vw,3.9rem)] font-semibold leading-[1.03] tracking-[-0.045em] text-white">
-              {slide.headline}
-            </h1>
-            <p className="mt-6 font-display text-[clamp(.95rem,1.7vw,1.3rem)] text-slate-400">{slide.support}</p>
-            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-2 text-sm text-slate-400">
-              <a href={`mailto:${EMAIL}`} className="transition hover:text-white">
-                {EMAIL}
-              </a>
-              <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="transition hover:text-white">
-                github.com/miqc
-              </a>
-              <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className="transition hover:text-white">
-                linkedin.com/in/micaelleal
-              </a>
+            <div className="slide-closing grid items-center gap-8">
+              <div>
+                <h1 className="font-display text-[clamp(2.5rem,8vw,6.5rem)] font-semibold leading-[.95] tracking-[-0.055em] text-white">
+                  {slide.headline}
+                </h1>
+                <p className="mt-6 font-display text-[clamp(1rem,2vw,1.6rem)] font-medium text-blue-200">
+                  {slide.support}
+                </p>
+                <ul className="mt-9 flex flex-wrap gap-x-5 gap-y-2.5 text-[clamp(.7rem,1vw,.88rem)] text-slate-400">
+                  <li>
+                    <a
+                      href={PORTFOLIO_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 transition hover:text-white"
+                    >
+                      <Globe size={15} className="shrink-0 text-slate-500" aria-hidden="true" />
+                      miuc.dev
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={`mailto:${EMAIL}`}
+                      className="inline-flex items-center gap-2 transition hover:text-white"
+                    >
+                      <Mail size={15} className="shrink-0 text-slate-500" aria-hidden="true" />
+                      {EMAIL}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={GITHUB_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 transition hover:text-white"
+                    >
+                      <Github size={15} className="shrink-0 text-slate-500" aria-hidden="true" />
+                      github.com/miqc
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={LINKEDIN_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 transition hover:text-white"
+                    >
+                      <Linkedin size={15} className="shrink-0 text-slate-500" aria-hidden="true" />
+                      linkedin.com/in/micaelleal
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mx-auto w-full max-w-[13rem] sm:max-w-[17rem] lg:max-w-[21rem]">
+                <HeroPortrait sizes="(max-width: 1024px) 45vw, 21rem" />
+              </div>
             </div>
           </div>
         ) : null}
@@ -476,7 +495,7 @@ export function EmbraerDeck() {
         aria-hidden="true"
       />
 
-      <div className="relative flex flex-1 flex-col print:hidden">
+      <div className="deck-live relative flex flex-1 flex-col">
         <AnimatePresence mode="wait">
           <motion.section
             key={slide.id}
@@ -487,12 +506,12 @@ export function EmbraerDeck() {
             className="flex flex-1 flex-col"
             aria-live="polite"
           >
-            <SlideFrame slide={slide} index={index} live />
+            <SlideFrame slide={slide} live />
           </motion.section>
         </AnimatePresence>
       </div>
 
-      <div className="relative border-t border-white/[0.07] print:hidden">
+      <div className="deck-live relative border-t border-white/[0.07]">
         <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-4 px-6 py-3 sm:px-12 lg:px-20">
           <div className="flex items-center gap-1.5" role="tablist" aria-label="Slides">
             {deckSlides.map((item, position) => (
@@ -552,14 +571,14 @@ export function EmbraerDeck() {
       </div>
 
       {/* Exportação: Ctrl+P gera um PDF com um slide por página, para levar de backup. */}
-      <div className="hidden print:block">
-        {deckSlides.map((item, position) => (
+      <div className="deck-print">
+        {deckSlides.map((item) => (
           <section
             key={item.id}
-            className="deck-page break-after-page bg-[#080c14] text-slate-100"
+            className="deck-page"
             aria-hidden="true"
           >
-            <SlideFrame slide={item} index={position} live={false} />
+            <SlideFrame slide={item} live={false} />
           </section>
         ))}
       </div>

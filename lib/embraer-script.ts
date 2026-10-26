@@ -67,10 +67,10 @@ export const culturePillars: CulturePillar[] = [
   {
     id: "primeiro-voo",
     index: 5,
-    label: "Viva cada dia como se fosse um primeiro voo.",
+    label: "Paixão por fazer a diferença.",
     lines: [
       "Celebre conquistas e valorize nossa história.",
-      "Viva cada dia como se fosse um primeiro voo.",
+      "Paixão por fazer a diferença.",
       "Lidere com o coração, respeite a diversidade e valorize nossas pessoas.",
       "Entregue o melhor valor para clientes e demais stakeholders.",
     ],
@@ -131,6 +131,7 @@ export const scriptBlocks: ScriptBlock[] = [
       "Experiência de estágio: 1 ano e 3 meses na Prefeitura, o que isso já te deu de bagagem.",
       "Os três marcos: sistema moderno do zero, migração do legado, e infraestrutura com deploy em produção.",
       "Os projetos fora do estágio, dizendo o que cada um prova sobre você.",
+      "Duas competências com prova: aprender rápido — quatro plataformas no SmartCall; pensar em produção — SQLite local e PostgreSQL em produção, com deploy.",
       "Uma frase ligando as duas: o padrão que se repete no seu jeito de trabalhar.",
     ],
     slide: "Sistema jurídico + projetos",
@@ -173,7 +174,7 @@ export const scriptBlocks: ScriptBlock[] = [
     goal: "O que você entrega nos primeiros 90 dias e seu nível real de inglês.",
     mustSay: [
       "Uma contribuição concreta e verificável para o time, não uma virtude.",
-      "O nível de inglês por habilidade, com honestidade e sem pedido de desculpa.",
+      "O nível de inglês e espanhol por habilidade, com honestidade e sem pedido de desculpa.",
       "Disponibilidade de mudança, em uma frase objetiva.",
     ],
     slide: "Primeiros 90 dias",
@@ -350,7 +351,7 @@ export const interviewQuestions: InterviewQuestion[] = [
 
 /** Os sete eixos sugeridos na página 4 do PDF. */
 export const scriptAxes: ScriptAxis[] = [
-  { name: "Idiomas", covered: true, note: "Slide de 10s: português nativo e inglês por habilidade." },
+  { name: "Idiomas", covered: true, note: "Slide de 8s: inglês e espanhol, ambos por habilidade." },
   { name: "Residência e mobilidade", covered: true, note: "Slide de 10s: joseense desde que nasceu, na cidade da vaga." },
   { name: "Atividades extracurriculares", covered: true, note: "Slide de 20s, reinterpretado como Projetos: três projetos no lugar de empresa júnior ou IC." },
   { name: "Ações voluntárias", covered: false, note: "Cortado: sem experiência real, o slide seria uma promessa. Os 5s foram para Projetos." },
