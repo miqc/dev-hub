@@ -393,6 +393,18 @@ a {
     gap: 3.5rem;
   }
 
+  /* Grades de 3 colunas também não disparam breakpoint no print. */
+  .pillar-others {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2.5rem;
+  }
+
+  .deck-cols-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .residence-split > div:last-child {
     border-top: 0;
     border-left: 1px solid rgb(255 255 255 / 0.1);
@@ -401,14 +413,98 @@ a {
   }
 }
 
-/* Cards de idioma: lado a lado e altos, preenchendo a altura do slide. */
+/* Colunas editoriais: fio vertical no desktop, fio horizontal empilhado no mobile. */
+.deck-cols-3,
 .language-skills {
+  display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-@media (max-width: 640px) {
+@media (min-width: 701px) {
+  .deck-cols-3 > * + *,
+  .language-skills > * + * {
+    border-left: 1px solid rgb(255 255 255 / 0.09);
+    padding-left: 2rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .deck-cols-3,
   .language-skills {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .deck-cols-3 > *,
+  .language-skills > * {
+    padding-left: 0;
+    padding-block: 0.75rem;
+  }
+
+  .language-skills {
+    gap: 0;
+  }
+
+  .deck-cols-3 > * + *,
+  .language-skills > * + * {
+    border-top: 1px solid rgb(255 255 255 / 0.09);
+  }
+}
+
+/* Card de projeto: vertical com imagem 16:9 no desktop, horizontal compacto no mobile. */
+/* `.project-card` já existe no portfólio da home; o deck usa `.deck-project`. */
+.deck-project {
+  flex-direction: column;
+}
+
+.project-list {
+  align-content: center;
+}
+
+.project-shot {
+  flex: 0 0 auto;
+  aspect-ratio: 16 / 9;
+  border-bottom: 1px solid rgb(255 255 255 / 0.08);
+}
+
+@media (max-width: 700px) {
+  .deck-project {
+    flex-direction: column;
+  }
+
+  /* No mobile o grupo de cards vira lista compacta: sem esticar e sem a stack. */
+  .project-list {
+    display: grid;
+    flex: 0 0 auto;
+    align-content: start;
+  }
+
+  .project-list .deck-project {
+    flex-direction: row;
+  }
+
+  .project-list .project-shot {
+    flex: 0 0 auto;
+    width: 5.5rem;
+    aspect-ratio: auto;
+    border-bottom: 0;
+    border-right: 1px solid rgb(255 255 255 / 0.08);
+  }
+
+  /* No mobile a lista rola: o slide não precisa caber em uma tela. */
+  .project-list .project-shot span {
+    font-size: 8px;
+    letter-spacing: .08em;
+    text-align: center;
+    padding-inline: .25rem;
+  }
+
+  .project-shot {
+    flex: 0 0 auto;
+    width: 100%;
+    aspect-ratio: 32 / 9;
+    max-height: none;
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    border-right: 0;
   }
 }
 
@@ -449,6 +545,18 @@ a {
     grid-template-columns: 1.05fr 0.95fr;
     align-items: center;
     gap: 3.5rem;
+  }
+
+  /* Grades de 3 colunas também não disparam breakpoint no print. */
+  .pillar-others {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2.5rem;
+  }
+
+  .deck-cols-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .residence-split > div:last-child {

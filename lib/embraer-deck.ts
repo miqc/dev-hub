@@ -14,7 +14,7 @@ export type DeckSlide = {
   seconds: number;
   /** Blocos do roteiro que exibem este slide. */
   blockIds: string[];
-  kind: "identity" | "axis" | "closing";
+  kind: "identity" | "system" | "axis" | "closing";
   kicker: string;
   headline: string;
   support?: string;
@@ -23,6 +23,16 @@ export type DeckSlide = {
   education?: Education[];
   /** Experiência profissional que ancora o eixo. */
   internship?: Internship;
+  /** Repositórios públicos que provam o eixo de projetos. */
+  projects?: ProjectCard[];
+  /** Competências: como a pessoa trabalha, cada uma provada por um fato. */
+  competences?: Competence[];
+  /** Conhecimentos técnicos agrupados por área, com nível declarado. */
+  tech?: TechGroup[];
+  /** Pilar escolhido entre os cinco, com os demais listados ao lado. */
+  pillarChoice?: { chosenId: string };
+  /** Entrega profissional: o que foi construído, em blocos. */
+  system?: { support: string; blocks: { label: string; detail: string }[] };
   /** Texto oficial do documento que define o que este eixo pede. */
   prompt?: string;
   /** Rótulo do espaço reservado; o conteúdo real ainda não existe. */
@@ -45,6 +55,34 @@ export type Internship = {
   duration: string;
   /** O que a duração significa, sem inventar o que a pessoa faz lá. */
   note: string;
+};
+
+export type SkillLevel = "Básico" | "Intermediário" | "Avançado";
+
+export type TechItem = { name: string; level: SkillLevel };
+
+export type TechGroup = { area: string; items: TechItem[] };
+
+export type Competence = {
+  name: string;
+  /** O que a competência significa na prática, em uma linha. */
+  claim: string;
+  /** O fato verificável que a prova. */
+  proof: string;
+};
+
+export type ProjectCard = {
+  name: string;
+  /** O que o projeto faz, em uma linha. */
+  what: string;
+  /** Natureza do projeto: cliente, acadêmico ou pessoal. */
+  kind: string;
+  /** Tecnologias por camada, quando o projeto é multiplataforma. */
+  stack: { layer: string; tech: string }[];
+  /** Caminho da imagem em /public. Ausente = o card mostra o espaço reservado. */
+  image?: string;
+  /** Link público, quando existe. */
+  href?: string;
 };
 
 export type Education = {
@@ -88,10 +126,10 @@ export const internship: Internship = {
 export const deckAxes: DeckSlide[] = [
   {
     id: "idioma",
-    seconds: 10,
+    seconds: 8,
     blockIds: ["contribuicao"],
     kind: "axis",
-    kicker: "Eixo 1 de 7",
+    kicker: "Eixo 1 de 6",
     headline: "Idioma",
     prompt:
       "Idiomas que você possui conhecimento e seu nível de proficiência (básico, intermediário, avançado ou fluente). Se desejar, conte como adquiriu esse conhecimento.",
@@ -107,10 +145,10 @@ export const deckAxes: DeckSlide[] = [
   },
   {
     id: "residencia",
-    seconds: 10,
+    seconds: 5,
     blockIds: ["abertura"],
     kind: "axis",
-    kicker: "Eixo 2 de 7",
+    kicker: "Eixo 2 de 6",
     headline: "Residência",
     prompt:
       "Local onde você mora e, se você não mora no local da vaga, a sua disponibilidade para se mudar.",
@@ -122,67 +160,153 @@ export const deckAxes: DeckSlide[] = [
     },
   },
   {
-    id: "extracurriculares",
+    id: "projetos",
     seconds: 15,
     blockIds: ["trajetoria"],
     kind: "axis",
-    kicker: "Eixo 3 de 7",
-    headline: "Atividades Extracurriculares",
+    kicker: "Eixo 3 de 6",
+    headline: "Projetos",
     prompt:
-      "Empresa Júnior, BAJA Fórmula, Iniciação Científica, Olimpíadas Científicas ou outras.",
-    empty: "A atividade, o que você fez nela e o que existe hoje por causa dela.",
-  },
-  {
-    id: "voluntarias",
-    seconds: 5,
-    blockIds: ["contribuicao"],
-    kind: "axis",
-    kicker: "Eixo 4 de 7",
-    headline: "Ações Voluntárias",
-    prompt:
-      "Apoio a instituições, ações sociais, projetos educacionais, campanhas de arrecadação, iniciativas ambientais ou atividades na sua comunidade.",
-    empty: "Uma frase, ou corte este eixo: 5 segundos não sustentam mais que isso.",
+      "Empresa Júnior, BAJA Fórmula, Iniciação Científica, Olimpíadas Científicas ou outras. Aqui: repositórios públicos, o que existe de verificável fora do estágio.",
+    projects: [
+      {
+        name: "Analisador de Similaridade Textual",
+        what: "Módulo do sistema da Prefeitura: compara assunto entre petições e defesas.",
+        kind: "Módulo do sistema",
+        stack: [
+          { layer: "Linguagem", tech: "Python" },
+          { layer: "NLP", tech: "spaCy" },
+        ],
+      },
+      {
+        name: "Distrito Financeiro",
+        what: "Aplicação financeira da Barbearia Distrito, com autenticação centralizada em uma API Node.",
+        kind: "Projeto de cliente",
+        stack: [
+          { layer: "Frontend", tech: "TypeScript · Vite" },
+          { layer: "Backend", tech: "Node sem framework" },
+          { layer: "Dados", tech: "SQLite · PostgreSQL" },
+          { layer: "Deploy", tech: "Docker · Render" },
+        ],
+      },
+      {
+        name: "SmartCall",
+        what: "Gerenciamento de chamados com integração de IA prevista, em quatro plataformas.",
+        kind: "Projeto acadêmico",
+        stack: [
+          { layer: "IA", tech: "Python" },
+          { layer: "Web", tech: "React JS" },
+          { layer: "Mobile", tech: "React Native" },
+          { layer: "Desktop", tech: "C#" },
+        ],
+      },
+    ],
   },
   {
     id: "competencias",
-    seconds: 30,
+    seconds: 25,
     blockIds: ["trajetoria", "pilar"],
     kind: "axis",
-    kicker: "Eixo 5 de 7",
+    kicker: "Eixo 4 de 6",
     headline: "Competências e habilidades",
     prompt:
       "Compartilhe características que fazem parte da sua forma de agir e aprender. Utilize exemplos da sua trajetória para mostrar como elas aparecem na prática.",
     internship: internship,
-    empty: "Duas competências, cada uma provada por um episódio concreto do estágio.",
+    competences: [
+      {
+        name: "Aprender rápido",
+        claim: "Entro em stack nova e entrego em semanas, não em semestres.",
+        proof:
+          "SmartCall em quatro plataformas — Python, React, React Native e C# — enquanto cursava duas graduações.",
+      },
+      {
+        name: "Pensar em produção",
+        claim: "Não paro em 'funciona na minha máquina'.",
+        proof:
+          "Distrito Financeiro roda em SQLite local e PostgreSQL em produção, com senha em scrypt, Docker e deploy configurado.",
+      },
+    ],
   },
   {
     id: "pilar",
     seconds: 40,
     blockIds: ["pilar"],
     kind: "axis",
-    kicker: "Eixo 6 de 7",
+    kicker: "Eixo 5 de 6",
     headline: "Pilar de cultura",
     prompt:
       "Escolha o pilar de cultura com o qual você mais se identifica, explique por que ele foi a sua escolha e como ele pode contribuir para o seu desenvolvimento.",
-    empty: "Pilar 4 — Trate a complexidade com simplicidade. Dois exemplos, um deles de erro.",
+    pillarChoice: { chosenId: "simplicidade" },
   },
   {
     id: "tecnicos",
-    seconds: 25,
+    seconds: 14,
     blockIds: ["trajetoria", "embraer"],
     kind: "axis",
-    kicker: "Eixo 7 de 7",
+    kicker: "Eixo 6 de 6",
     headline: "Conhecimentos Técnicos",
     prompt:
       "Liste as ferramentas e tecnologias que você conhece e informe seu nível de conhecimento em cada uma delas.",
-    empty: "Só o que você defende sob pergunta. Nível declarado por tecnologia.",
+    tech: [
+      {
+        area: "Frontend",
+        items: [
+          { name: "TypeScript", level: "Avançado" },
+          { name: "React · Next.js", level: "Avançado" },
+          { name: "Tailwind CSS", level: "Intermediário" },
+        ],
+      },
+      {
+        area: "Backend",
+        items: [
+          { name: "Node.js", level: "Intermediário" },
+          { name: "Python", level: "Intermediário" },
+          { name: "C# · .NET", level: "Básico" },
+        ],
+      },
+      {
+        area: "Dados e infra",
+        items: [
+          { name: "SQLite", level: "Intermediário" },
+          { name: "PostgreSQL", level: "Intermediário" },
+          { name: "Docker", level: "Básico" },
+        ],
+      },
+    ],
   },
 ];
+
+/** Estágio: entra logo antes de Projetos, para a bagagem vir antes dos repositórios. */
+const internshipSlide: DeckSlide = {
+  id: "estagio",
+  seconds: 35,
+  blockIds: ["trajetoria"],
+  kind: "system",
+  kicker: "Prefeitura de SJC",
+  headline: "Experiência de estágio",
+  system: {
+    support: "1 ano e 3 meses · em andamento",
+    blocks: [
+      {
+        label: "Desenvolvimento de um sistema moderno do zero",
+        detail: "Backend e frontend construídos pelos estagiários, sem base de código anterior.",
+      },
+      {
+        label: "Migração do sistema legado para o novo",
+        detail: "Substituição do sistema em uso, sem interromper a operação da Prefeitura.",
+      },
+      {
+        label: "Infraestrutura, deploy e produção",
+        detail: "Ambiente, publicação e sustentação, em time e em contato com stakeholders.",
+      },
+    ],
+  },
+  };
 
 export const deckSlides: DeckSlide[] = [
   {
     id: "abertura",
-    seconds: 20,
+    seconds: 15,
     blockIds: ["abertura"],
     kind: "identity",
     kicker: "Etapa Dinâmica 2027",
@@ -203,10 +327,12 @@ export const deckSlides: DeckSlide[] = [
     ],
     internship: internship,
   },
-  ...deckAxes,
+  ...deckAxes.slice(0, 2),
+  internshipSlide,
+  ...deckAxes.slice(2),
   {
     id: "fechamento",
-    seconds: 10,
+    seconds: 8,
     blockIds: ["fechamento"],
     kind: "closing",
     kicker: "Fechamento",

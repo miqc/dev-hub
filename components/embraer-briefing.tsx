@@ -251,7 +251,7 @@ export function EmbraerBriefing() {
       <section className="section-space border-t border-white/[0.06]">
         <div className="container-shell">
           <Reveal>
-            <SectionHeading eyebrow="Cobertura" title="Os sete eixos, auditados." />
+            <SectionHeading eyebrow="Cobertura" title="Os eixos, auditados." />
           </Reveal>
           <div className="mt-10 grid gap-3 sm:grid-cols-2">
             {scriptAxes.map((axis, index) => (
@@ -280,7 +280,7 @@ export function EmbraerBriefing() {
           <Reveal delay={0.1}>
             <p className="mt-8 flex items-start gap-3 rounded-2xl border border-amber-400/20 bg-amber-400/[0.06] p-5 text-sm leading-7 text-amber-200/90">
               <AlertTriangle size={16} className="mt-1 shrink-0" />
-              Cortar é parte do escopo. Uma apresentação que tenta cobrir os sete eixos entrega sete menções superficiais; cobrir cinco com prova entrega uma candidata ou um candidato memorável.
+              Cortar é parte do escopo. Um eixo sem prova real é pior que um eixo ausente: a banca pergunta e não há resposta. Seis eixos com fato valem mais que sete com intenção.
             </p>
           </Reveal>
         </div>

@@ -110,7 +110,7 @@ export const scriptBlocks: ScriptBlock[] = [
   {
     id: "abertura",
     start: 0,
-    end: 20,
+    end: 15,
     title: "Abertura + âncora",
     goal: "Quem você é, onde estuda, e o fato que já te separa da maioria da sala.",
     mustSay: [
@@ -123,22 +123,23 @@ export const scriptBlocks: ScriptBlock[] = [
   },
   {
     id: "trajetoria",
-    start: 20,
-    end: 70,
+    start: 15,
+    end: 65,
     title: "Trajetória com prova",
-    goal: "Estágio como prova principal, mais um segundo artefato verificável.",
+    goal: "A bagagem do estágio como prova principal, mais os três projetos verificáveis.",
     mustSay: [
-      "O que você faz na Prefeitura e o artefato que existe por causa disso.",
-      "Experiência 2: idem, de natureza diferente da primeira.",
+      "Experiência de estágio: 1 ano e 3 meses na Prefeitura, o que isso já te deu de bagagem.",
+      "Os três marcos: sistema moderno do zero, migração do legado, e infraestrutura com deploy em produção.",
+      "Os projetos fora do estágio, dizendo o que cada um prova sobre você.",
       "Uma frase ligando as duas: o padrão que se repete no seu jeito de trabalhar.",
     ],
-    slide: "Duas provas verificáveis",
-    cut: "A segunda experiência vira uma frase. Nunca cortar o artefato.",
+    slide: "Sistema jurídico + projetos",
+    cut: "Os projetos encurtam para uma frase. O estágio nunca sai.",
   },
   {
     id: "embraer",
-    start: 70,
-    end: 95,
+    start: 65,
+    end: 90,
     title: "Por que a Embraer",
     goal: "O que você entende do negócio — não elogio à empresa.",
     mustSay: [
@@ -151,8 +152,8 @@ export const scriptBlocks: ScriptBlock[] = [
   },
   {
     id: "pilar",
-    start: 95,
-    end: 140,
+    start: 90,
+    end: 130,
     title: "Pilar + dois exemplos",
     goal: "\"Trate a complexidade com simplicidade\": duas histórias concretas, uma delas de erro.",
     mustSay: [
@@ -166,8 +167,8 @@ export const scriptBlocks: ScriptBlock[] = [
   },
   {
     id: "contribuicao",
-    start: 140,
-    end: 170,
+    start: 130,
+    end: 157,
     title: "Contribuição + idioma",
     goal: "O que você entrega nos primeiros 90 dias e seu nível real de inglês.",
     mustSay: [
@@ -180,8 +181,8 @@ export const scriptBlocks: ScriptBlock[] = [
   },
   {
     id: "fechamento",
-    start: 170,
-    end: 180,
+    start: 157,
+    end: 165,
     title: "Fechamento",
     goal: "Uma frase que fecha o fio da abertura. Sem \"obrigado\".",
     mustSay: [
@@ -216,7 +217,7 @@ export const evaluationAxes = [
 export const visualRules = [
   {
     title: "Um slide por eixo, mais abertura e fechamento",
-    detail: "Nove slides: identidade, os sete eixos do documento e o fechamento. Nenhum slide decorativo.",
+    detail: "Nove slides: identidade, estágio, seis eixos e fechamento. Um eixo foi cortado por falta de prova real.",
   },
   {
     title: "O slide nunca diz o que você vai falar",
@@ -302,6 +303,14 @@ export const interviewQuestions: InterviewQuestion[] = [
   },
   {
     category: "Sobre você",
+    question: "Você já teve alguma iniciativa própria?",
+    shape:
+      "Empreende 19, aos 14 anos: a startup Bike Stop, estações de manutenção de bicicleta tendo o poder público como cliente. Feche ligando ao presente — o interesse por setor público continua, hoje no estágio na Prefeitura.",
+    trap:
+      "Apresentar como se fosse empresa real. Foi um programa escolar, aos 14 anos: dizer com clareza o que era e o que ficou de aprendizado vale mais que inflar o tamanho.",
+  },
+  {
+    category: "Sobre você",
     question: "Por que devemos escolher você?",
     shape: "Uma competência comprovada + uma lacuna que você sabe nomear e está resolvendo.",
     trap: "Lista de adjetivos. Todos os candidatos dizem o mesmo.",
@@ -343,8 +352,8 @@ export const interviewQuestions: InterviewQuestion[] = [
 export const scriptAxes: ScriptAxis[] = [
   { name: "Idiomas", covered: true, note: "Slide de 10s: português nativo e inglês por habilidade." },
   { name: "Residência e mobilidade", covered: true, note: "Slide de 10s: joseense desde que nasceu, na cidade da vaga." },
-  { name: "Atividades extracurriculares", covered: true, note: "Slide de 15s: ainda vazio — empresa júnior, IC, olimpíada ou projeto." },
-  { name: "Ações voluntárias", covered: true, note: "Slide de 5s: uma frase. Mais que isso vira lista vazia." },
+  { name: "Atividades extracurriculares", covered: true, note: "Slide de 20s, reinterpretado como Projetos: três projetos no lugar de empresa júnior ou IC." },
+  { name: "Ações voluntárias", covered: false, note: "Cortado: sem experiência real, o slide seria uma promessa. Os 5s foram para Projetos." },
   { name: "Competências e habilidades", covered: true, note: "Slide de 30s: estágio na Prefeitura ancora duas competências." },
   { name: "Pilar de cultura", covered: true, note: "Slide de 40s: o eixo mais pesado do deck." },
   { name: "Conhecimentos técnicos", covered: true, note: "Slide de 25s: só o que você defende sob pergunta." },
