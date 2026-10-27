@@ -493,6 +493,11 @@ a {
   border-bottom: 1px solid rgb(255 255 255 / 0.08);
 }
 
+/* Capturas de tela: ancorar no topo para a barra de navegação do app ficar visível. */
+.project-shot img {
+  object-position: top;
+}
+
 @media (max-width: 700px) {
   .deck-project {
     flex-direction: column;
@@ -506,15 +511,19 @@ a {
   }
 
   .project-list .deck-project {
-    flex-direction: row;
+    flex-direction: column;
   }
 
   .project-list .project-shot {
     flex: 0 0 auto;
-    width: 5.5rem;
-    aspect-ratio: auto;
-    border-bottom: 0;
-    border-right: 1px solid rgb(255 255 255 / 0.08);
+    width: 100%;
+    aspect-ratio: 16 / 6;
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    border-right: 0;
+  }
+
+  .project-list .project-shot img {
+    object-position: top;
   }
 
   /* No mobile a lista rola: o slide não precisa caber em uma tela. */

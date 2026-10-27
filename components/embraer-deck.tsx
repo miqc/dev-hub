@@ -8,9 +8,8 @@ import Image from "next/image";
 import { CodeField, CodeFieldStatic } from "@/components/ui/code-field";
 import { EmbraerLogo } from "@/components/ui/embraer-logo";
 import { HeroPortrait } from "@/components/ui/hero-portrait";
-import { deckSlides, type DeckSlide, type LanguageSkill } from "@/lib/embraer-deck";
-import { culturePillars } from "@/lib/embraer-script";
-import { formatClock } from "@/lib/embraer-script";
+import { deckSlides, formatClock, type DeckSlide, type LanguageSkill } from "@/lib/embraer-deck";
+import { culturePillars } from "@/lib/culture-pillars";
 import { EMAIL, GITHUB_URL, LINKEDIN_URL, PORTFOLIO_URL } from "@/lib/profile";
 
 /** Escala oficial do documento: básico, intermediário, avançado, fluente. */
@@ -205,8 +204,9 @@ function SlideFrame({ slide, live }: { slide: DeckSlide; live: boolean }) {
                             src={repo.image}
                             alt={`Captura de tela de ${repo.name}`}
                             fill
-                            sizes="(max-width: 640px) 90vw, 30vw"
-                            className="object-cover"
+                            sizes="(max-width: 700px) 92vw, (max-width: 1024px) 45vw, 30vw"
+                            unoptimized
+                            className="object-cover object-top"
                           />
                         ) : (
                           <span className="absolute inset-0 grid place-items-center text-[10px] uppercase tracking-[.18em] text-slate-700">
@@ -411,7 +411,7 @@ function SlideFrame({ slide, live }: { slide: DeckSlide; live: boolean }) {
                       className="inline-flex items-center gap-2 transition hover:text-white"
                     >
                       <Linkedin size={15} className="shrink-0 text-slate-500" aria-hidden="true" />
-                      linkedin.com/in/micaelleal
+                      linkedin.com/in/micaeldev
                     </a>
                   </li>
                 </ul>
@@ -560,8 +560,8 @@ export function EmbraerDeck() {
               {fullscreen ? <Minimize size={15} /> : <Maximize size={15} />}
             </button>
             <Link
-              href="/embraer#roteiro"
-              aria-label="Voltar ao roteiro"
+              href="/"
+              aria-label="Voltar ao portfólio"
               className="grid size-9 place-items-center rounded-full text-slate-400 transition hover:bg-white/5 hover:text-white"
             >
               <X size={16} />

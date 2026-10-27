@@ -1,3 +1,11 @@
+import { siteProjects, type ProjectStackItem, type SiteProject } from "@/lib/projects";
+
+/** mm:ss truncado; usado no rodapé de cada slide do deck. */
+export function formatClock(value: number) {
+  const safe = Math.max(0, Math.trunc(value));
+  return `${Math.floor(safe / 60)}:${String(safe % 60).padStart(2, "0")}`;
+}
+
 /**
  * Deck visual dos 180s.
  *
@@ -76,9 +84,9 @@ export type ProjectCard = {
   /** Natureza do projeto: cliente, acadêmico ou pessoal. */
   kind: string;
   /** Tecnologias por camada, quando o projeto é multiplataforma. */
-  stack: { layer: string; tech: string }[];
-  /** Caminho da imagem em /public. Ausente = o card mostra o espaço reservado. */
-  image?: string;
+  stack: ProjectStackItem[];
+  /** Captura de tela do projeto. Ausente = o card mostra o espaço reservado. */
+  image?: SiteProject["image"];
   /** Link público, quando existe. */
   href?: string;
 };
@@ -160,7 +168,7 @@ export const deckAxes: DeckSlide[] = [
     kicker: "Eixo 2 de 6",
     headline: "Residência",
     prompt:
-      "Local onde você mora e, se você não mora no local da vaga, a sua disponibilidade para se mudar.",
+      "Local onde eu moro atualmente.",
     place: {
       city: "São José dos Campos",
       region: "São Paulo · Brasil",
@@ -176,40 +184,15 @@ export const deckAxes: DeckSlide[] = [
     kicker: "Eixo 3 de 6",
     headline: "Projetos",
     prompt:
-      "Empresa Júnior, BAJA Fórmula, Iniciação Científica, Olimpíadas Científicas ou outras. Aqui: repositórios públicos, o que existe de verificável fora do estágio.",
-    projects: [
-      {
-        name: "Analisador de Similaridade Textual",
-        what: "Módulo do sistema da Prefeitura: compara assunto entre petições e defesas.",
-        kind: "Módulo do sistema",
-        stack: [
-          { layer: "Linguagem", tech: "Python" },
-          { layer: "NLP", tech: "spaCy" },
-        ],
-      },
-      {
-        name: "Distrito Financeiro",
-        what: "Aplicação financeira da Barbearia Distrito, com autenticação centralizada em uma API Node.",
-        kind: "Projeto de cliente",
-        stack: [
-          { layer: "Frontend", tech: "TypeScript · Vite" },
-          { layer: "Backend", tech: "Node sem framework" },
-          { layer: "Dados", tech: "SQLite · PostgreSQL" },
-          { layer: "Deploy", tech: "Docker · Render" },
-        ],
-      },
-      {
-        name: "SmartCall",
-        what: "Gerenciamento de chamados com integração de IA prevista, em quatro plataformas.",
-        kind: "Projeto acadêmico",
-        stack: [
-          { layer: "IA", tech: "Python" },
-          { layer: "Web", tech: "React JS" },
-          { layer: "Mobile", tech: "React Native" },
-          { layer: "Desktop", tech: "C#" },
-        ],
-      },
-    ],
+      "Projetos de minha autoria, acadêmicos ou pessoais, que mostram minhas habilidades técnicas e criativas.",
+    projects: siteProjects.map((project) => ({
+      name: project.name,
+      what: project.summary.pt,
+      kind: project.kind.pt,
+      stack: project.stack,
+      image: project.image,
+      href: project.href,
+    })),
   },
   {
     id: "competencias",
@@ -219,7 +202,7 @@ export const deckAxes: DeckSlide[] = [
     kicker: "Eixo 4 de 6",
     headline: "Competências e habilidades",
     prompt:
-      "Compartilhe características que fazem parte da sua forma de agir e aprender. Utilize exemplos da sua trajetória para mostrar como elas aparecem na prática.",
+      "Características que fazem parte da minha forma de agir e aprender.",
     competences: [
       {
         name: "Aprender rápido",
@@ -239,7 +222,7 @@ export const deckAxes: DeckSlide[] = [
     kicker: "Eixo 5 de 6",
     headline: "Pilar de cultura",
     prompt:
-      "Escolha o pilar de cultura com o qual você mais se identifica, explique por que ele foi a sua escolha e como ele pode contribuir para o seu desenvolvimento.",
+      "Pilar de cultura com o qual eu mais me identifiquei.",
     pillarChoice: { chosenId: "simplicidade" },
   },
   {
@@ -250,7 +233,7 @@ export const deckAxes: DeckSlide[] = [
     kicker: "Eixo 6 de 6",
     headline: "Conhecimentos Técnicos",
     prompt:
-      "Liste as ferramentas e tecnologias que você conhece e informe seu nível de conhecimento em cada uma delas.",
+      "Ferramentas e tecnologias que eu conheço e meu nível de conhecimento em cada uma delas.",
     tech: [
       {
         area: "Frontend",
@@ -264,8 +247,8 @@ export const deckAxes: DeckSlide[] = [
         area: "Backend",
         items: [
           { name: "Node.js", level: "Intermediário" },
-          { name: "Python", level: "Intermediário" },
-          { name: "C# · .NET", level: "Básico" },
+          { name: "Python · Django", level: "Intermediário" },
+          { name: "Java · Spring", level: "Básico" },
         ],
       },
       {

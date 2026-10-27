@@ -1,12 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { FormEvent, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowDown,
   ArrowRight,
   ArrowUpRight,
-  Braces,
   Check,
   Code2,
   Copy,
@@ -14,8 +14,6 @@ import {
   Linkedin,
   Mail,
   Send,
-  Sparkles,
-  TerminalSquare,
 } from "lucide-react";
 import { HeroPortrait } from "@/components/ui/hero-portrait";
 import { useLanguage } from "@/context/language-context";
@@ -24,11 +22,10 @@ import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Typewriter } from "@/components/ui/typewriter";
 import { CodeField } from "@/components/ui/code-field";
+import { siteProjects } from "@/lib/projects";
 import { technologies } from "@/lib/technologies";
 import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/profile";
 import { copyText } from "@/lib/clipboard";
-
-const projectIcons = [TerminalSquare, Braces, Sparkles];
 
 export function Portfolio() {
   const { t, language } = useLanguage();
@@ -147,45 +144,77 @@ export function Portfolio() {
         <div className="container-shell">
           <Reveal><SectionHeading eyebrow={t.projects.eyebrow} title={t.projects.title} description={t.projects.description} /></Reveal>
           <div className="mt-12 grid gap-5 lg:grid-cols-3">
-            {t.projects.items.map((project, index) => {
-              const Icon = projectIcons[index];
-              return (
-                <Reveal key={project.title} delay={index * 0.08}>
-                  <article className="project-card group flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-[#0d1420]">
-                    <div className={`project-visual accent-${project.accent} relative grid h-52 place-items-center overflow-hidden`}>
-                      <div className="project-grid absolute inset-0 opacity-30" />
-                      <div className="absolute size-36 rounded-full bg-current opacity-10 blur-3xl" />
-                      <span className="relative grid size-16 place-items-center rounded-2xl border border-white/15 bg-[#0a101b]/70 text-white shadow-2xl backdrop-blur"><Icon size={28} strokeWidth={1.6} /></span>
-                      <span className="absolute right-4 top-4 grid size-9 place-items-center rounded-full border border-white/10 bg-black/20 text-white/60 opacity-0 transition group-hover:opacity-100"><ArrowUpRight size={16} /></span>
+            {siteProjects.map((project, index) => (
+              <Reveal key={project.id} delay={index * 0.08}>
+                <article className="project-card group flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-[#0d1420]">
+                  <div className="relative aspect-[16/9] overflow-hidden border-b border-white/[0.06] bg-[#0a101b]">
+                    <Image
+                      src={project.image}
+                      alt={`Captura de tela de ${project.name}`}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 1024px) 92vw, 30vw"
+                      className="object-cover object-top transition duration-500 group-hover:scale-[1.02]"
+                    />
+                  </div>
+
+                  <div className="flex flex-1 flex-col p-6">
+                    <p className="text-[10px] font-bold uppercase tracking-[.2em] text-blue-400/80">
+                      {project.kind[language]}
+                    </p>
+                    <h3 className="mt-2 font-display text-xl font-semibold text-white">{project.name}</h3>
+                    <p className="mt-3 flex-1 text-sm leading-7 text-slate-400">{project.summary[language]}</p>
+
+                    <div className="mt-5 flex flex-wrap gap-x-3 gap-y-1.5">
+                      {project.stack
+                        .flatMap((item) => item.tech.split("·").map((tech) => tech.trim()))
+                        .map((tech) => (
+                          <span key={tech} className="text-[11px] font-semibold text-blue-400">
+                            #{tech.replaceAll(" ", "")}
+                          </span>
+                        ))}
                     </div>
-                    <div className="flex flex-1 flex-col p-6">
-                      <h3 className="font-display text-xl font-semibold text-white">{project.title}</h3>
-                      <p className="mt-3 flex-1 text-sm leading-7 text-slate-400">{project.description}</p>
-                      <div className="mt-5 flex flex-wrap gap-2">{project.tags.map((tag) => <span key={tag} className="text-[11px] font-semibold text-blue-400">#{tag.replaceAll(" ", "")}</span>)}</div>
-                      <div className="mt-6 flex items-center gap-5 border-t border-white/[0.06] pt-5">
-                        <a href={index === 0 ? "https://github.com/miqc/dev-hub" : GITHUB_URL} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-semibold text-slate-300 transition hover:text-white"><Github size={15} />{t.projects.source}</a>
-                        <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-semibold text-slate-300 transition hover:text-white"><ArrowUpRight size={15} />{t.projects.live}</a>
-                      </div>
+
+                    <div className="mt-6 flex items-center gap-5 border-t border-white/[0.06] pt-5">
+                      <a
+                        href={project.href ?? GITHUB_URL}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-2 text-xs font-semibold text-slate-300 transition hover:text-white"
+                      >
+                        <Github size={15} />
+                        {t.projects.source}
+                      </a>
                     </div>
-                  </article>
-                </Reveal>
-              );
-            })}
+                  </div>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
       <section id="experience" className="section-space border-y border-white/[0.06] bg-[#0a0f19]">
-        <div className="container-shell grid gap-14 lg:grid-cols-[.75fr_1.25fr] lg:gap-24">
-          <Reveal><SectionHeading eyebrow={t.experience.eyebrow} title={t.experience.title} /></Reveal>
-          <div className="relative ml-2 border-l border-white/10 pl-8 sm:pl-10">
-            {t.experience.items.map((item, index) => (
-              <Reveal key={item.title} delay={index * 0.08} className="relative pb-10 last:pb-0">
-                <span className="absolute -left-[2.48rem] top-1.5 size-3 rounded-full border-[3px] border-[#0a0f19] bg-blue-400 ring-1 ring-blue-400/40 sm:-left-[2.98rem]" />
-                <p className="text-[11px] font-bold uppercase tracking-[.2em] text-blue-400">{item.period}</p>
-                <h3 className="mt-2 font-display text-xl font-semibold text-white">{item.title}</h3>
-                <p className="mt-1 text-sm font-medium text-slate-500">{item.company}</p>
-                <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">{item.description}</p>
+        <div className="container-shell">
+          <Reveal>
+            <SectionHeading
+              eyebrow={t.experience.eyebrow}
+              title={t.experience.title}
+              description={t.experience.description}
+            />
+          </Reveal>
+
+          <div className="mt-12 grid gap-4 md:grid-cols-3">
+            {t.experience.groups.map((group, index) => (
+              <Reveal key={group.label} delay={index * 0.08}>
+                <article className="flex h-full flex-col rounded-2xl border border-white/[0.07] bg-white/[0.025] p-6 transition hover:-translate-y-1 hover:border-blue-400/25">
+                  <p className="text-[10px] font-bold uppercase tracking-[.22em] text-blue-400/80">
+                    {group.label}
+                  </p>
+                  <h3 className="mt-3 font-display text-lg font-semibold text-white">{group.title}</h3>
+                  <p className="mt-1 text-xs font-medium text-slate-500">{group.org}</p>
+                  <p className="mt-4 flex-1 text-sm leading-7 text-slate-400">{group.detail}</p>
+                </article>
               </Reveal>
             ))}
           </div>

@@ -15,7 +15,6 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const onHome = pathname === "/";
-  const onEmbraer = pathname.startsWith("/embraer");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -24,18 +23,15 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // No /embraer a navegação é a barra de abas da própria página.
-  const links: readonly (readonly [string, string])[] = onEmbraer
-    ? []
-    : [
-        ["about", t.nav.about],
-        ["skills", t.nav.skills],
-        ["projects", t.nav.projects],
-        ["experience", t.nav.experience],
-        ["contact", t.nav.contact],
-      ];
+  const links: readonly (readonly [string, string])[] = [
+    ["about", t.nav.about],
+    ["skills", t.nav.skills],
+    ["projects", t.nav.projects],
+    ["experience", t.nav.experience],
+    ["contact", t.nav.contact],
+  ];
 
-  const sectionPrefix = onHome || onEmbraer ? "" : "/";
+  const sectionPrefix = onHome ? "" : "/";
 
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "border-b border-white/8 bg-[#090d16]/80 shadow-2xl shadow-black/10 backdrop-blur-xl" : "bg-transparent"}`}>
@@ -53,10 +49,9 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <Link
-            href="/embraer"
-            aria-current={onEmbraer ? "page" : undefined}
+            href="/embraer/slides"
             aria-label={t.nav.embraer}
-            className={`group inline-flex items-center gap-1.5 rounded-full border px-2.5 py-2 text-[10px] font-bold uppercase tracking-[.16em] transition sm:px-3.5 ${onEmbraer ? "border-blue-400/40 bg-blue-500/15 text-blue-300" : "border-white/10 bg-white/[0.04] text-slate-300 hover:border-blue-400/30 hover:bg-blue-500/10 hover:text-white"}`}
+            className="group inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-2 text-[10px] font-bold uppercase tracking-[.16em] text-slate-300 transition hover:border-blue-400/30 hover:bg-blue-500/10 hover:text-white sm:px-3.5"
           >
             <Plane size={13} aria-hidden="true" className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             <span className="hidden sm:inline">{t.nav.embraer}</span>
@@ -91,16 +86,10 @@ export function Navbar() {
               {links.map(([id, label]) => (
                 <a key={id} href={`${sectionPrefix}#${id}`} onClick={() => setOpen(false)} className="border-b border-white/5 py-4 text-sm font-medium text-slate-300 last:border-0">{label}</a>
               ))}
-              {onEmbraer ? (
-                <Link href="/" onClick={() => setOpen(false)} className="mt-4 inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-bold text-slate-200">
-                  {t.embraer.contact.back}
-                </Link>
-              ) : (
-                <Link href="/embraer" onClick={() => setOpen(false)} className="mt-4 inline-flex items-center justify-center gap-2 rounded-xl border border-blue-400/30 bg-blue-500/15 px-4 py-3 text-sm font-bold text-blue-300">
-                  <Plane size={16} aria-hidden="true" />
-                  {t.nav.embraer}
-                </Link>
-              )}
+              <Link href="/embraer/slides" onClick={() => setOpen(false)} className="mt-4 inline-flex items-center justify-center gap-2 rounded-xl border border-blue-400/30 bg-blue-500/15 px-4 py-3 text-sm font-bold text-blue-300">
+                <Plane size={16} aria-hidden="true" />
+                {t.nav.embraer}
+              </Link>
             </div>
           </motion.div>
         )}
