@@ -17,7 +17,11 @@ export function CodeField() {
     const context = canvas.getContext("2d");
     if (!context) return;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Em telas pequenas o canvas vira estático: o rAF redesenhando texto a cada
+    // frame custa caro e não muda a leitura da página.
+    const reduceMotion =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(max-width: 700px)").matches;
     const pointer = { x: -1000, y: -1000 };
     let width = 0;
     let height = 0;

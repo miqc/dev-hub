@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Globe, Github, Linkedin, Mail, Maximize, Minimize, X } from "lucide-react";
 import Link from "next/link";
@@ -431,6 +432,8 @@ function SlideFrame({ slide, live }: { slide: DeckSlide; live: boolean }) {
 export function EmbraerDeck() {
   const [index, setIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
+  // A cópia de impressão são 9 slides escondidos — só existe quando há intenção de imprimir.
+  const [printing, setPrinting] = useState(false);
   const reduceMotion = useReducedMotion();
 
   // Deep link: /embraer/slides#s4 abre no slide 4, inclusive em navegação client-side.
@@ -442,6 +445,19 @@ export function EmbraerDeck() {
     apply();
     window.addEventListener("hashchange", apply);
     return () => window.removeEventListener("hashchange", apply);
+  }, []);
+
+  useEffect(() => {
+    // flushSync: o navegador fotografa a página logo depois do beforeprint,
+    // então a cópia precisa estar no DOM de forma síncrona.
+    const onBeforePrint = () => flushSync(() => setPrinting(true));
+    const onAfterPrint = () => setPrinting(false);
+    window.addEventListener("beforeprint", onBeforePrint);
+    window.addEventListener("afterprint", onAfterPrint);
+    return () => {
+      window.removeEventListener("beforeprint", onBeforePrint);
+      window.removeEventListener("afterprint", onAfterPrint);
+    };
   }, []);
 
   const go = useCallback((next: number) => {
@@ -571,17 +587,15 @@ export function EmbraerDeck() {
       </div>
 
       {/* Exportação: Ctrl+P gera um PDF com um slide por página, para levar de backup. */}
-      <div className="deck-print">
-        {deckSlides.map((item) => (
-          <section
-            key={item.id}
-            className="deck-page"
-            aria-hidden="true"
-          >
-            <SlideFrame slide={item} live={false} />
-          </section>
-        ))}
-      </div>
+      {printing ? (
+        <div className="deck-print">
+          {deckSlides.map((item) => (
+            <section key={item.id} className="deck-page" aria-hidden="true">
+              <SlideFrame slide={item} live={false} />
+            </section>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }

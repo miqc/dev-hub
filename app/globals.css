@@ -771,3 +771,28 @@ a {
     justify-content: center;
   }
 }
+
+/* Mobile: as animações decorativas do herói rodam para sempre e cada uma mexe
+   num elemento com blur grande — caro para GPU de celular. Aqui elas param. */
+@media (max-width: 700px) {
+  .hero-portrait-float,
+  .hero-person-glow,
+  .hero-floor,
+  .hero-orbit,
+  .hero-spark {
+    animation: none !important;
+  }
+
+  .hero-spark {
+    display: none;
+  }
+
+  /* Blur de 90–140px é o maior custo de pintura da página. */
+  .hero-person-glow {
+    filter: blur(40px);
+  }
+
+  [class*="blur-["] {
+    filter: blur(50px) !important;
+  }
+}
